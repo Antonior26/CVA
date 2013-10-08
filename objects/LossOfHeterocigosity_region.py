@@ -26,7 +26,6 @@ class loh_region:
         self.end=end
         self.loh_sites=loh_sites
         self.length=self.end-self.start #Length of the region
-        self.n_sites=len(self.loh_sites) #Number of LOH sites
         self.ids=[] #ENSBL ids of genes overlapping with this region
         self.names=[] #Common name of genes overlapping with this region
     
@@ -34,10 +33,10 @@ class loh_region:
         
         ids=",".join(self.ids)
         names=",".join(self.names)
-        return self.chrom+'\t'+str(self.start)+'\t'+str(self.end)+'\t'+str(self.length)+'\t'+str(self.n_sites)+"\t"+ids+"\t"+names
+        return self.chrom+'\t'+str(self.start)+'\t'+str(self.end)+'\t'+str(self.end-self.start)+'\t'+str(len(self.loh_sites))+"\t"+ids+"\t"+names
     
     def __len__(self):
-        return self.length
+        return self.end-self.start
     
     
     def cellbase_annotation(self,type="gene"):
@@ -63,6 +62,18 @@ class loh_region:
     def get_variants(self):
         return self.loh_sites
     
+    def add_varinat(self,variant):
+        if self.chrom!=variant.chrom:
+            raise Exception("Dfferent chromosomes")
+        elif self.start<=variant.pos and self.end>=variant.pos:
+            self.loh_sites.append(variant)
+        elif self.start>variant.pos:
+            self.loh_sites.append(variant)
+            self.start=variant.pos
+        elif self.end<variant.pos:
+            self.loh_sites.append(variant)
+            self.end=variant.pos
+        
         
         
         
