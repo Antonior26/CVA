@@ -1,0 +1,9 @@
+#Confile for test with vcf format somaicsniper
+
+FORMAT	vcf	GERMINAL	SOMATIC
+#PREDEF FILTER
+STRAND-BIAS	ALL	DP4
+#Filters
+DP	ALL	>10
+SS	GERMINAL	=2
+SSC	GERMINAL	>30
