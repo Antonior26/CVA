@@ -60,19 +60,39 @@ class loh_region:
                 print "Found feature without external Name" 
     
     def get_variants(self):
+        '''*******************
+        Return variants (type:LossOfHeterocigosity_Variant) in region
+        *******************'''
         return self.loh_sites
+
+
+    def check_variant_cluster(self,variant,limit=1000):
+        sites=self.get_variants()
+        for site in sites:
+            if site.check_cluster(variant,limit):
+                return True
+        else:
+            return False
+
+
+
+
     
-    def add_varinat(self,variant):
-        if self.chrom!=variant.chrom:
-            raise Exception("Dfferent chromosomes")
-        elif self.start<=variant.pos and self.end>=variant.pos:
-            self.loh_sites.append(variant)
-        elif self.start>variant.pos:
-            self.loh_sites.append(variant)
-            self.start=variant.pos
-        elif self.end<variant.pos:
-            self.loh_sites.append(variant)
-            self.end=variant.pos
+    def add_varinat(self,variant,limit=1000):
+        '''************************
+        Add a variant region
+        ************************'''
+        if self.check_variant_cluster(variant, limit):
+            if self.chrom!=variant.chrom:
+                raise Exception("Dfferent chromosomes")
+            elif self.start<=variant.pos and self.end>=variant.pos:
+                self.loh_sites.append(variant)
+            elif self.start>variant.pos:
+                self.loh_sites.append(variant)
+                self.start=variant.pos
+            elif self.end<variant.pos:
+                self.loh_sites.append(variant)
+                self.end=variant.pos
         
         
         

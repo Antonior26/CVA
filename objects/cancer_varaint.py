@@ -6,7 +6,8 @@ Created on 05/10/2013
 
 import conf_file
 
-class variant:
+class cancer_variant:
+    
     '''****************
     This class has methods Cancer Variants
     ***************'''
