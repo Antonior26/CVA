@@ -3,7 +3,7 @@ Created on 13/10/2013
 
 @author: antonio
 '''
-import objects.variant as variant
+import variant as variant
 
 class vcf_file:
     """***********************************************************************************************************************************************
@@ -80,8 +80,8 @@ class vcf_file:
         for line in fd:
             a_line=line.split("\t")
             if type=='Normal':
-                aux_variant=variant.variant(a_line[0],a_line[1],a_line[3],a_line[4],a_line[7],line)       
+                aux_variant=variant.variant(a_line[0],int(a_line[1]),a_line[3],a_line[4],a_line[6],line)       
             if type=='loh':
-                aux_variant=variant.loh_variant(a_line[0],a_line[1],a_line[3],a_line[4],a_line[7],line)
+                aux_variant=variant.loh_variant(a_line[0],int(a_line[1]),a_line[3],a_line[4],a_line[6],line)
             result.append(aux_variant)
         return result

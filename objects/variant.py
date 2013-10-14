@@ -96,7 +96,7 @@ class variant:
         else:
             return False
 
-##################################################
+#######################~Other general methods~###########################
     
     def __hash__(self):
         return hash((self.chrom, self.pos, self.ref, self.alt))
@@ -109,6 +109,14 @@ class variant:
             return self.pos-other.pos
         else:
             raise Exception("Dfferent chromosomes")
+        
+##########################~Self methods~##########################
+
+    def check_filter(self,fiter_vaule='PASS'):
+        if self.filter==fiter_vaule:
+            return True
+        else:
+            return False
         
         
         

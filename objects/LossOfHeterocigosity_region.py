@@ -28,12 +28,14 @@ class loh_region:
         self.length=self.end-self.start #Length of the region
         self.ids=[] #ENSBL ids of genes overlapping with this region
         self.names=[] #Common name of genes overlapping with this region
+        self.description=[]
     
     def __str__(self):
         
         ids=",".join(self.ids)
         names=",".join(self.names)
-        return self.chrom+'\t'+str(self.start)+'\t'+str(self.end)+'\t'+str(self.end-self.start)+'\t'+str(len(self.loh_sites))+"\t"+ids+"\t"+names
+        description=",".join(self.description)
+        return self.chrom+'\t'+str(self.start)+'\t'+str(self.end)+'\t'+str(self.end-self.start)+'\t'+str(len(self.loh_sites))+"\t"+ids+"\t"+names+"\t"+description
     
     def __len__(self):
         return self.end-self.start
@@ -56,6 +58,10 @@ class loh_region:
                 print "Found feature without id" 
             try:
                 self.names.append(row["externalName"])
+            except:
+                print "Found feature without external Name" 
+            try:
+                self.description.append(row["description"])
             except:
                 print "Found feature without external Name" 
     
@@ -85,7 +91,7 @@ class loh_region:
         if self.check_variant_cluster(variant, limit):
             if self.chrom!=variant.chrom:
                 raise Exception("Dfferent chromosomes")
-            elif self.start<=variant.pos and self.end>=variant.pos:
+            elif self.start<variant.pos and self.end>variant.pos:
                 self.loh_sites.append(variant)
             elif self.start>variant.pos:
                 self.loh_sites.append(variant)
