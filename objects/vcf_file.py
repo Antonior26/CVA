@@ -4,6 +4,7 @@ Created on 13/10/2013
 @author: antonio
 '''
 import variant as variant
+import os
 
 class vcf_file:
     """***********************************************************************************************************************************************
@@ -85,3 +86,10 @@ class vcf_file:
                 aux_variant=variant.loh_variant(a_line[0],int(a_line[1]),a_line[3],a_line[4],a_line[6],line)
             result.append(aux_variant)
         return result
+    
+    def toannovar(self, outfile, qsub=False):
+        if qsub==True:
+            os.system("qsub -N ToAnnovar convert_annovar.sh "+self.filename+" "+outfile)
+        else:
+            os.system("convert2annovar.pl -format vcf4 "+self.filename+" > "+outfile)
+        

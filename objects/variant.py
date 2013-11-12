@@ -3,6 +3,8 @@ Created on 13/10/2013
 
 @author: antonio
 '''
+import requests
+import json
 import LossOfHeterocigosity_region as loh_r
 class variant:
     '''
@@ -18,6 +20,20 @@ class variant:
         self.alt=alt
         self.filter=filter
         self.line=line
+        self.id=''
+        self.geneName=''
+        self.type=''
+        self.consequence=''
+        self.MGPFreq=-1
+        self.genomes1kFreq=-1
+        self.exomes5kfreq=-1
+        self.mmaskerScore=-1
+        self.cons=-1
+        self.sift=-1
+        self.pph=-1
+        
+        
+        
         
 ###############~Comparison Methods~###############
 
@@ -117,8 +133,15 @@ class variant:
             return True
         else:
             return False
-        
-        
+    
+    def cellbase_annotation(self):
+        '''**********************************
+        Annotation by variant ussing cellbase
+        **********************************'''    
+        url="http://ws.bioinfo.cipf.es/cellbase/rest/latest/hsa/genomic/variant/"+self.chrom+":"+self.pos+":"+self.ref+":"+self.alt+"/consequence_type?of=json"
+        query=requests.get(url)
+        annotation=json.loads(query.content)
+        ####esta empezada pero no terminada cellbase caida :(
         
         
 class loh_variant(variant):
